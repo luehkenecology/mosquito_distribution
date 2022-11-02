@@ -69,5 +69,9 @@ patho_2015 <- read_excel("data/patho_new/03_2015_mücken_overview_results.xlsx",
 names(patho_2015) <- patho_2015[2,]
 patho_2015_2 <- patho_2015[-c(1:2),]
 
+# change comma to dots in latitude and longitude
+df$latitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$latitude)))
+df$longitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$longitude)))
+
 
 write.table(df, "output/mosquitoes_ger_pa.csv", sep = ";", col.names = NA)
