@@ -74,8 +74,11 @@ df$latitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$latitude)))
 df$longitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$longitude)))
 
 # unique sampling sites per species
-df_un <- unique(df[, 1:3])
+df_un <- unique(df[, c(1,2,4)])
 
+write.table(sort(unique(df$species)),"species.csv", sep = ";", col.names = NA)
+
+# write table
 write.table(df_un, "output/mosquitoes_ger_pa.csv",
   sep = ";", col.names = NA
 )
