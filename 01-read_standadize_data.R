@@ -28,6 +28,7 @@ df <- data.frame(
     gfs1c$S_Longitude
   ),
   method = "BG trap",
+  n_traps = 1,
   species = c(
     bni1$V_SpeciesName,
     cvo1$V_SpeciesName,
