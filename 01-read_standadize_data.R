@@ -49,3 +49,5 @@ df <- data.frame(
     gfs1c$V_AnimalCount
   )
 )
+
+write.table(df, "output/mosquitoes_ger_pa.csv", sep = ";", col.names = NA)
