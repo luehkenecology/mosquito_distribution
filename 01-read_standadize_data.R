@@ -16,7 +16,7 @@ gfs1b <- read.csv("data/culimo/Culimo GFS2016.csv", sep = ";")
 gfs1c <- read.csv("data/culimo/Culimo GFS2017.csv", sep = ";")
 
 # merged data.frame
-df <- data.frame(
+df_culimo <- data.frame(
   latitude = c(
     bni1$S_Latitude,
     cvo1$S_Latitude,
@@ -57,8 +57,8 @@ df <- data.frame(
 )
 
 # change comma to dots in latitude and longitude
-df$latitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$latitude)))
-df$longitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$longitude)))
+df_culimo$latitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df_culimo$latitude)))
+df_culimo$longitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df_culimo$longitude)))
 
 
 # patho 2009
@@ -96,6 +96,9 @@ patho_2014_2 <- patho_2014[-c(1:2), ]
 patho_2015 <- read_excel("data/pathosurveillance/03_2015_mücken_overview_results.xlsx", sheet = 1)
 names(patho_2015) <- patho_2015[2, ]
 patho_2015_2 <- patho_2015[-c(1:2), ]
+
+# patho 2016
+patho_2016 <- read_excel("data/pathosurveillance/Mückenliste_2016.xlsx", sheet = 1)
 
 
 # unique sampling sites per species
