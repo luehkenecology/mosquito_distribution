@@ -52,8 +52,28 @@ df <- data.frame(
   )
 )
 
+# change comma to dots in latitude and longitude
+df$latitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$latitude)))
+df$longitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$longitude)))
+
+
 ###
 library("readxl")
+
+# patho 2009
+patho_2009 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 1)
+
+# patho 2010
+patho_2010 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 2)
+patho_2010_2 <- patho_2010[-1,-c(4, 25)] # remove "Gesamt", "Eier", "Larven"
+
+# patho 2011
+patho_2011 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 3)
+patho_2011_2 <- patho_2011[-1,-c(27:29)] # remove "Gesamt", "Eier", "Larven"
+  
+# patho 2012
+patho_2012 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 4)
+patho_2012_2 <- patho_2012[-1,-c(27,29)] # remove "Gesamt", emtpy column
 
 # patho 2013
 patho_2013 <- read_excel("data/pathosurveillance/03_2013_Mücken-Ergebnisse.xlsx", sheet = 1)
@@ -70,9 +90,6 @@ patho_2015 <- read_excel("data/pathosurveillance/03_2015_mücken_overview_result
 names(patho_2015) <- patho_2015[2, ]
 patho_2015_2 <- patho_2015[-c(1:2), ]
 
-# change comma to dots in latitude and longitude
-df$latitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$latitude)))
-df$longitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df$longitude)))
 
 # unique sampling sites per species
 df_un <- unique(df[, c(1,2,4)])
