@@ -56,17 +56,17 @@ df <- data.frame(
 library("readxl")
 
 # patho 2013
-patho_2013 <- read_excel("data/patho_new/03_2013_Mücken-Ergebnisse.xlsx", sheet = 1)
+patho_2013 <- read_excel("data/pathosurveillance/03_2013_Mücken-Ergebnisse.xlsx", sheet = 1)
 names(patho_2013) <- patho_2013[2, ]
 patho_2013_2 <- patho_2013[-c(1:3), ]
 
 # patho 2014
-patho_2014 <- read_excel("data/patho_new/03_2014_mücken_overview_results.xlsx", sheet = 1)
+patho_2014 <- read_excel("data/pathosurveillance/03_2014_mücken_overview_results.xlsx", sheet = 1)
 names(patho_2014) <- patho_2014[2, ]
 patho_2014_2 <- patho_2014[-c(1:2), ]
 
 # patho 2015
-patho_2015 <- read_excel("data/patho_new/03_2015_mücken_overview_results.xlsx", sheet = 1)
+patho_2015 <- read_excel("data/pathosurveillance/03_2015_mücken_overview_results.xlsx", sheet = 1)
 names(patho_2015) <- patho_2015[2, ]
 patho_2015_2 <- patho_2015[-c(1:2), ]
 
