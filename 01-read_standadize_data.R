@@ -62,25 +62,20 @@ df_culimo$longitude <- as.numeric(gsub(",", ".", gsub("\\.", "", df_culimo$longi
 
 
 # patho 2009
-patho_2009 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 1)
+patho_2009 <- read_excel("data/pathosurveillance/Belegung Mücken-Freezer.xlsx", sheet = 2)
+patho_2009_2 <- patho_2009[-1,]
 
 # patho 2010
-patho_2010 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 2)
-patho_2010_2 <- patho_2010[-1, -c(4, 25)] # remove "Gesamt", "Eier", "Larven"
-patho_2010_3 <- patho_2010_2 %>%
-  gather(species, specimens, colnames(patho_2010_2)[4:23])
+patho_2010 <- read_excel("data/pathosurveillance/Belegung Mücken-Freezer.xlsx", sheet = 3)
+patho_2010_2 <- patho_2010[-1,]
 
 # patho 2011
-patho_2011 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 3)
-patho_2011_2 <- patho_2011[-1, -c(27:29)] # remove "Gesamt", "Eier", "Larven"
-patho_2011_3 <- patho_2011_2 %>%
-  gather(species, specimens, colnames(patho_2011_2)[4:26])
+patho_2011 <- read_excel("data/pathosurveillance/Belegung Mücken-Freezer.xlsx", sheet = 4)
+patho_2011_2 <- patho_2011[-1,]
 
 # patho 2012
-patho_2012 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 4)
-patho_2012_2 <- patho_2012[-1, -c(27, 29)] # remove "Gesamt", emtpy column
-patho_2012_3 <- patho_2012_2 %>%
-  gather(species, specimens, colnames(patho_2012_2)[5:26])
+patho_2012 <- read_excel("data/pathosurveillance/Belegung Mücken-Freezer.xlsx", sheet = 5)
+patho_2012_2 <- patho_2012[-1,]
 
 # patho 2013
 patho_2013 <- read_excel("data/pathosurveillance/03_2013_Mücken-Ergebnisse.xlsx", sheet = 1)
@@ -101,12 +96,78 @@ patho_2015_2 <- patho_2015[-c(1:2), ]
 patho_2016 <- read_excel("data/pathosurveillance/Mückenliste_2016.xlsx", sheet = 1)
 
 
-# unique sampling sites per species
-df_un <- unique(df[, c(1, 2, 4)])
+# df_culimo
+df_patho <- data.frame(
+  site = c(
+    patho_2009_2$Standort,
+    patho_2010_2$Standort,
+    patho_2011_2$Standort,
+    patho_2012_2$Standort,
+    patho_2013_2$Gebiet,
+    patho_2014_2$`Gebiet/Area`,
+    patho_2015_2$`Gebiet/Area`,
+    patho_2016$site
+  ),
+  method = "BG trap",
+  species = c(
+    patho_2009_2$Art,
+    patho_2010_2$Art,
+    patho_2011_2$Art,
+    patho_2012_2$Art,
+    patho_2013_2$Gattung,
+    patho_2014_2$Gattung,
+    patho_2015_2$Gattung,
+    patho_2016$taxon
+  ),
+  sex = "female",
+  number = c(
+    patho_2009_2$Individuenanzahl,
+    patho_2010_2$Individuenanzahl,
+    patho_2011_2$Individuenanzahl,
+    patho_2012_2$Individuenanzahl,
+    patho_2013_2$Poolgröße,
+    patho_2014_2$Poolgröße,
+    patho_2015_2$Poolgröße,
+    patho_2016$specimens
+  )
+)
 
-write.table(sort(unique(df$species)), "species.csv", sep = ";", col.names = NA)
+sum(as.numeric(df_patho$number), na.rm = T)
+sum(as.numeric(df_culimo$number), na.rm = T)
+
+# unique sampling sites per species
+df_un <- unique(df_patho[, c(1, 3, 5)])
+
+GPS <- read.table("data/final_gps_table_newu.csv", sep = ";", header = T)
+dimnames(GPS)[[2]] <- c(
+  "row_no", "old", "site",
+  "x", "y",
+  "method"
+)
+df_patho2 <- merge(df_un, GPS, by = "site")
+table(is.na(df_patho2$x))
+
+#
+df_all <- data.frame(
+  latitude = c(
+    df_culimo$latitude,
+    df_patho2$y
+  ),
+  longitude = c(
+    df_culimo$longitude,
+    df_patho2$x
+  ),
+  species = c(
+    df_culimo$species,
+    df_patho2$species
+  ),
+  number = c(
+    df_culimo$number,
+    df_patho2$number
+  )
+)
 
 # write table
-write.table(df_un, "output/mosquitoes_ger_pa.csv",
+write.table(df_all, "output/mosquitoes_ger_pa.csv",
   sep = ";", col.names = NA
 )
