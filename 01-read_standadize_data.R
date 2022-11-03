@@ -70,15 +70,17 @@ patho_2010_2 <- patho_2010[-1, -c(4, 25)] # remove "Gesamt", "Eier", "Larven"
 patho_2010_3 <- patho_2010_2 %>%
   gather(species, specimens, colnames(patho_2010_2)[4:23])
 
-
-
 # patho 2011
 patho_2011 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 3)
 patho_2011_2 <- patho_2011[-1, -c(27:29)] # remove "Gesamt", "Eier", "Larven"
+patho_2011_3 <- patho_2011_2 %>%
+  gather(species, specimens, colnames(patho_2011_2)[4:26])
 
 # patho 2012
 patho_2012 <- read_excel("data/pathosurveillance/05_mosquito pools 2009-2012.xlsx", sheet = 4)
 patho_2012_2 <- patho_2012[-1, -c(27, 29)] # remove "Gesamt", emtpy column
+patho_2012_3 <- patho_2012_2 %>%
+  gather(species, specimens, colnames(patho_2012_2)[5:26])
 
 # patho 2013
 patho_2013 <- read_excel("data/pathosurveillance/03_2013_Mücken-Ergebnisse.xlsx", sheet = 1)
